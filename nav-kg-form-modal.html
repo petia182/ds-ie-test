@@ -1,0 +1,123 @@
+<html>
+  <head>
+    <title>Testing website</title>
+    <meta
+      name="description"
+      content="Page description. No longer than 155 characters."
+    />
+    <meta charset="utf-8" />
+
+    <link
+      rel="stylesheet"
+      href="https://deploy-preview-473--yext-design-system.netlify.app/dist/css/main.css"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://deploy-preview-473--yext-design-system.netlify.app/dist/css/nav-footer-only.css"
+    />
+  </head>
+  <body>
+    
+    <div class="yext-navigation-preact">Hello</div>    
+    <script>
+      window.MSInputMethodContext && document.documentMode && document.write('<script crossorigin="anonymous" src="https://polyfill.io/v3/polyfill.min.js"><\/script>');
+    </script>
+    <!-- Load jQuery  -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Load DS navigation script -->
+    <script src="https://deploy-preview-473--yext-design-system.netlify.app/dist/js/nav.js"></script>
+    <script>
+      /* Initialize YextNavigation */ 
+      DesignSystem.nav.initYextNavigation({
+        container: ".yext-navigation-preact"
+      })
+    </script>
+
+    <!-- Handlebars Template -->
+    <script id="global-forms-template" type="text/x-handlebars-template">
+        <h5 class="js-yextleadform-title">{{formTitle}}</h4>
+    
+        <div class="yext-form__content-wrapper {{#if ./hasSingleField}}yext-form__content-wrapper--single-input{{/if}}">
+          {{#if redirectUrl}}
+            <input type="hidden" class="js-yext-leadform-callback" value="{{redirectUrl}}" />
+          {{/if}}
+          <div class="yext-form__inputs">
+            {{#each fields}}
+              <div class="form-group {{#unless isVisible}}hidden{{/unless}}">
+                {{#unless isVisible}}
+                  <input type="hidden" name="{{marketoId}}" value={{value}} />
+                {{else}}
+                  {{#if type}}
+                    {{#switch type}}
+                      {{#case 'EMAIL'}}
+                        <label for="{{marketoId}}">{{displayName}}</label>
+                        <input type="email" class="form-control" {{#if required}}required{{/if}} id="{{marketoId}}" name="{{marketoId}}" value="{{userData.Email}}">
+                      {{/case}}
+                      {{#case 'SELECT'}}
+                        {{#unless ./../hasSingleField}}
+                          <label for="{{marketoId}}">{{displayName}}</label>
+                          <select name="{{marketoId}}" id="{{marketoId}}">
+                            {{#each options}}
+                              <option {{#if selected}}selected{{/if}} value="{{value}}">{{label}}</option>
+                            {{/each}}
+                          </select>
+                        {{/unless}}
+                      {{/case}}
+                      {{#case 'TEXT'}}
+                        <label for="{{marketoId}}">{{displayName}}</label>
+                        <input type="text" class="form-control" {{#if required}}required{{/if}} id="{{marketoId}}" name="{{marketoId}}">
+                      {{/case}}
+                      {{#case 'TEXTAREA'}}
+                        <label for="{{marketoId}}">{{displayName}}</label>
+                        <textarea type="text" class="form-control" {{#if required}}required{{/if}} id="{{marketoId}}" name="{{marketoId}}"></textarea>
+                      {{/case}}
+                    {{/switch}}
+                  {{/if}}
+                {{/unless}}
+                {{#if required}}
+                  <div class="invalid-feedback">This is a required field</div>
+                {{/if}}
+    
+              </div>
+            {{/each}}
+          </div>
+    
+          <!-- Submit Button -->
+          <div class="yext-form__submit-button">
+            <button class="next-step-button btn-primary p-0" type="button"><svg width="18" height="14" xmlns="http://www.w3.org/2000/svg"><path d="M17 7l-6.397173 6-.595053-.5581087 5.033922-4.7213875.347703-.3261158H1v-.7894388h14.388693l-.347704-.3261158-5.033922-4.7213875L10.602827 1z" fill="#FFF" fill-rule="nonzero" stroke="#FFF" stroke-width="1.35"/></svg></button>
+    
+            {{#if ./hasSingleField }}
+              <button class="simple-submit-button btn-primary p-0" type="submit"><svg width="18" height="14" xmlns="http://www.w3.org/2000/svg"><path d="M17 7l-6.397173 6-.595053-.5581087 5.033922-4.7213875.347703-.3261158H1v-.7894388h14.388693l-.347704-.3261158-5.033922-4.7213875L10.602827 1z" fill="#FFF" fill-rule="nonzero" stroke="#FFF" stroke-width="1.35"/></svg></button>
+            {{else}}
+              <button type="submit" class="btn btn-primary">{{ctaText}}</button>
+            {{/if}}
+          </div>
+          <div class="steps-count"></div>
+    
+          <!-- Checkbox  -->
+          {{#each fields}}
+            {{#case 'CHECKBOX'}}
+              {{#each options}}
+              <div class="form-check--{{value}} form-check__wrapper">
+                <div class="form-check">
+                  <!-- hide checkbox if US -->
+                  {{#ifEquals value "explicit"}}
+                  <input type="checkbox" class="form-check-input" id="{{./../marketoId}}" name="{{./../marketoId}}" {{#if required}}required{{/if}} class="form-check-input">
+                  {{/ifEquals}}
+                  <label for="{{./../marketoId}}" class="form-check-label">{{{label}}}</label>
+                </div>
+                <button class="collapse-button" type="button"></button>
+              </div>
+              {{/each}}
+            {{/case}}
+          {{/each}}
+    
+        </div>
+        <div class="js-yextleadform-success" style="display: none;">
+          <p class="p4">{{successMessage}}</p>
+        </div>
+    </script>
+    
+  </body>
+</html>
